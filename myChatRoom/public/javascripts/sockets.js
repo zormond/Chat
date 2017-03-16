@@ -31,6 +31,10 @@ $(document).ready(function()
       }
     });
 
+    $("#pastMessages").click(function(){
+        socket.emit("past messages"); 
+    });
+
 
     $('#send-button').click(function(e) {
       var message = {
@@ -89,9 +93,21 @@ $(document).ready(function()
       updateTyping();
     });
 
+    socket.on("past messages",function(messages){
+        displayAll(messages); 
+
+    });
     //////////////////////
     // HELPER FUNCTIONS
     //////////////////////
+    function displayAll(messages){
+        $("#messages").empty();
+        messages.forEach(function(element){
+        addMessage(element); 
+    });
+    }
+
+
 
     function addMessage(message) {
       $('#messages').append($('<li>').html(`<span class='username'>${message.user}</span>${message.text}`));

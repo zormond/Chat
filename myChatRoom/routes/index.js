@@ -5,6 +5,7 @@ var request = require('request');
 var usersConnected = [];
 var userIDcount = 0;
 var convoID = null;
+var pastMessages = [];
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index.html', { root: 'public' });
@@ -18,8 +19,13 @@ module.exports = function(io) {
     var userID;
     // console.log(socket);
     // console.log('a user connected');
-
+    
+    socket.on("past messages", function(){
+        socket.emit("past messages", pastMessages);
+    });
+    
     socket.on('chat message', function(msg){
+          pastMessages.push(msg);
           socket.broadcast.emit('chat message', msg);
     });
 
