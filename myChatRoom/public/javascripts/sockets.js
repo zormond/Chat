@@ -1,4 +1,6 @@
-    $(function () {
+$(document).ready(function()
+{
+        $(function () {
       var socket = io();
       var username = localStorage['username'] ? localStorage['username'] : prompt('What name would you like to display?');
       localStorage['username'] = username;
@@ -57,3 +59,4 @@
 
 	    }
     });
+});    
