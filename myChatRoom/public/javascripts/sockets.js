@@ -1,65 +1,129 @@
 $(document).ready(function()
 {
-    $(function () {
-      var socket = io();
-      var username = localStorage['username'] ? localStorage['username'] : prompt('What name would you like to display?');
+    var typing = {};
+    var typingTimeout;
+    var username = localStorage['username'] ? localStorage['username'] : prompt('What name would you like to display?');
+    if (localStorageAvailable()) {
       localStorage['username'] = username;
-      socket.emit('newUser', localStorage['username']);
-      $('form').submit(function(e) {
-      	var message = {
-      		user: username,
-      		text: $('#message-text').val()
-      	}
-        if($("#chatRoomTab").hasClass("active"))
-        {
-            socket.emit('chat message', message);
-            addMessage(message);
-            $('#message-text').val('');
-        }
-        else
-        {
-            addMessage(message);
-            $('#message-text').val('');
-            socket.emit('botMessage',message);
-        }
-        e.preventDefault();
-      });
+    }
+    var socket = io();
+    socket.emit('newUser', username);
 
-      socket.on('newUser', function(usersConnected){
-        $('#users').empty();
-        usersConnected.forEach(function(element) {
-            $('#users').append($('<li>').html(`<span class='username'>${element.name}</span>`));
-        });
+    $('#message-container').keypress(function(e) {
+      if (typingTimeout) {
+        clearTimeout(typingTimeout)
+      }
+      if (e.keyCode == 13) {
+        $('#send-button').click();
+      } else {
+        socket.emit('typing', username);
 
-      });
-
-      socket.on('deleteUser',function(usersConnected){
-        $('#users').empty();
-        usersConnected.forEach(function(element)
-        {
-            $('#users').append($('<li>').html(`<span class='username'>${element.name}</span>`));
-        });
-      });
-
-      socket.on('botMessage', function(message)
-      {
-        addMessage(message);
-      });
-
-      socket.on('chat message', function(message) {
-	      addMessage(message);
-	  });
-
-	    function addMessage(message) {
-            if($("#chatRoomTab").hasClass("active"))
-            {
-                $('#messages').append($('<li>').html(`<span class='username'>${message.user}</span>${message.text}`));
-            }
-            else
-            {
-                $('#botMessages').append($('<li>').html(`<span class='username'>${message.user}</span>${message.text}`));
-            }
-
-	    }
+        typingTimeout = setTimeout(function() {
+          socket.emit('stopped typing', username);
+        }, 3000)
+      }
     });
+
+
+    $('#send-button').click(function(e) {
+      socket.emit('stopped typing', username);
+    	var message = {
+    		user: username,
+    		text: $('#message-text').val()
+    	}
+      if($("#chatRoomTab").hasClass("active"))
+      {
+          addMessage(message);
+          socket.emit('chat message', message);
+      }
+      else
+      {
+          addBotMessage(message);
+          socket.emit('botMessage',message);
+      }
+
+      $('#message-text').val('');
+    });
+
+    ////////////////////
+    // SOCKET STUFF
+    ////////////////////
+
+    socket.on('newUser', function(usersConnected){
+      $('#users').empty();
+      usersConnected.forEach(function(element) {
+        $('#users').append($('<li>').html(`<span class='username'>${element.name}</span>`));
+      });
+    });
+
+    socket.on('deleteUser',function(usersConnected){
+      $('#users').empty();
+      usersConnected.forEach(function(element)
+      {
+        $('#users').append($('<li>').html(`<span class='username'>${element.name}</span>`));
+      });
+    });
+
+    socket.on('botMessage', function(message) {
+      addBotMessage(message);
+    });
+
+    socket.on('chat message', function(message) {
+      addMessage(message);
+    });
+
+    socket.on('typing', function(username) {
+      typing[username] = username;
+      updateTyping();
+    });
+
+    socket.on('stopped typing', function(username) {
+      delete typing[username];
+      updateTyping();
+    });
+
+    //////////////////////
+    // HELPER FUNCTIONS
+    //////////////////////
+
+    function addMessage(message) {
+      $('#messages').append($('<li>').html(`<span class='username'>${message.user}</span>${message.text}`));
+    }
+
+    function addBotMessage(message) {
+      $('#botMessages').append($('<li>').html(`<span class='username'>${message.user}</span>${message.text}`));
+    }
+
+    function updateTyping() {
+      var numberTyping = Object.keys(typing).length;
+      var typingText = "";
+
+      Object.keys(typing).forEach(function(username, index) {
+        if (index == numberTyping - 1) {
+          typingText += ' and '
+        } else if (index != 0) {
+          typingText += ', '
+        }
+        typingText += username;
+      });
+
+      if (numberTyping == 1) {
+        typingText += ' is typing...';
+      } else if (numberTyping > 1) {
+        typingText += ' are typing...';
+      }
+
+      $('#typing-div').text(typingText);
+    }
+
+    function localStorageAvailable() {
+        var test = 'test';
+        try {
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
 });    

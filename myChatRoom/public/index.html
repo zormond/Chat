@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>chat it UP</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="stylesheets/style.css" rel="stylesheet">
   </head>
@@ -23,11 +23,14 @@
           <ul id="users"></ul>
       </div>
     </div>
-    <div id="botDiv">
+    <div id="botDiv" hidden>
       <ul id="botMessages"></ul>
     </div>
-    <form action="">
-      <input id="message-text" autocomplete="off" /><button>Send</button>
-    </form>
+    <div id="footer">
+      <div id="typing-div"></div>
+      <div id="message-container">
+        <input id="message-text" autocomplete="off" /><button id="send-button">Send</button>
+      </div>
+    </div>
   </body>
 </html>

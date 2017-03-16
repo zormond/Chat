@@ -16,8 +16,8 @@ module.exports = function(io) {
 
   io.on('connection', function(socket){
     var userID;
-    console.log(socket);
-    console.log('a user connected');
+    // console.log(socket);
+    // console.log('a user connected');
 
     socket.on('chat message', function(msg){
           socket.broadcast.emit('chat message', msg);
@@ -31,18 +31,18 @@ module.exports = function(io) {
         name: username
       }
       usersConnected.push(userInformation);
-      console.log(usersConnected);
+      // console.log(usersConnected);
       io.sockets.emit('newUser', usersConnected);
     });
 
     socket.on('botMessage',function(userMessage)
     {
       var botMessage;
-      console.log("This is the user message " + userMessage.text);
+      // console.log("This is the user message " + userMessage.text);
       var query = userMessage.text.split(" ").join("%");
       var urlToSend = "http://api.program-o.com/v2/chatbot/?bot_id=10&say=" + query +"&format=json"
       if(convoID != null) { urlToSend = "http://api.program-o.com/v2/chatbot/?bot_id=10&say=" + query +"&convo_id=" + convoID +  "&format=json"; }
-      console.log(urlToSend);
+      // console.log(urlToSend);
       request(urlToSend, function(error,response,body)
       {
         if(!error && response.statusCode == 200)
@@ -58,10 +58,18 @@ module.exports = function(io) {
       });
     });
 
+    socket.on('typing', function(username) {
+      socket.broadcast.emit('typing', username);
+    });
+
+    socket.on('stopped typing', function(username) {
+      socket.broadcast.emit('stopped typing', username);
+    });
+
     socket.on('disconnect', function() {
-        console.log('user disconnected');
-        console.log("before: " + usersConnected);
-        console.log("my id: " + userID);
+        // console.log('user disconnected');
+        // console.log("before: " + usersConnected);
+        // console.log("my id: " + userID);
         var searchTerm = userID,
         index = -1;
         for(var i = 0; i < usersConnected.length; i++) {
@@ -71,8 +79,8 @@ module.exports = function(io) {
           }   
         }
         usersConnected.splice(index,1);
-        console.log("after: index--" + index);
-        console.log(usersConnected);
+        // console.log("after: index--" + index);
+        // console.log(usersConnected);
         io.sockets.emit('deleteUser',usersConnected);
     });
 

@@ -6,8 +6,8 @@
           else{
               $("#chatRoomTab").addClass("active");
               $("#chatBotTab").removeClass("active");
-              $("#chatRoomDiv").css("display","block");
-              $("#botDiv").css("display","none");
+              $("#chatRoomDiv").show();
+              $("#botDiv").hide();
           }
       });
 
@@ -17,8 +17,8 @@
           else{
               $("#chatBotTab").addClass("active");
               $("#chatRoomTab").removeClass("active");
-              $("#botDiv").css("display","block");
-              $("#chatRoomDiv").css("display","none");
+              $("#botDiv").show();
+              $("#chatRoomDiv").hide();
           }
       });
     });
