@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="stylesheets/style.css" rel="stylesheet">
+  </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="javascripts/changeTab.js"></script>
+  <script src="javascripts/sockets.js"></script>
+  <body>
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active" id="chatRoomTab"><a href="#">Chat Room</a></li>
+      <li role="presentation" id="chatBotTab"><a href="#">chatBot</a></li>
+    </ul>
+    <div id="chatRoomDiv">
+      <ul id="messages"></ul>
+    </div>
+    <div id="botDiv">
+      <ul id="botMessages"></ul>
+    </div>
+    <form action="">
+      <input id="message-text" autocomplete="off" /><button>Send</button>
+    </form>
+  </body>
+</html>
