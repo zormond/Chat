@@ -9,8 +9,8 @@
 6 silly lifecycle mychatroom@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle mychatroom@0.0.0~start: mychatroom@0.0.0
 8 verbose lifecycle mychatroom@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle mychatroom@0.0.0~start: PATH: /home/zormond/.linuxbrew/lib/node_modules/npm/bin/node-gyp-bin:/home/zormond/Documents/myChatRoom/node_modules/.bin:/home/zormond/.linuxbrew/bin:/home/zormond/bin:/home/zormond/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-10 verbose lifecycle mychatroom@0.0.0~start: CWD: /home/zormond/Documents/myChatRoom
+9 verbose lifecycle mychatroom@0.0.0~start: PATH: /home/zormond/.linuxbrew/lib/node_modules/npm/bin/node-gyp-bin:/home/zormond/Documents/chat/myChatRoom/node_modules/.bin:/home/zormond/.linuxbrew/bin:/home/zormond/bin:/home/zormond/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+10 verbose lifecycle mychatroom@0.0.0~start: CWD: /home/zormond/Documents/chat/myChatRoom
 11 silly lifecycle mychatroom@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
 12 silly lifecycle mychatroom@0.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle mychatroom@0.0.0~start: Failed to exec start script
@@ -25,7 +25,7 @@
 14 verbose stack     at maybeClose (internal/child_process.js:890:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid mychatroom@0.0.0
-16 verbose cwd /home/zormond/Documents/myChatRoom
+16 verbose cwd /home/zormond/Documents/chat/myChatRoom
 17 error Linux 4.8.0-40-generic
 18 error argv "/home/zormond/.linuxbrew/Cellar/node/7.6.0/bin/node" "/home/zormond/.linuxbrew/bin/npm" "start"
 19 error node v7.6.0
