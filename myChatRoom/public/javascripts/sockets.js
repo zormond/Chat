@@ -10,6 +10,13 @@ $(document).ready(function()
     socket.emit('newUser', username);
 
     $('#message-container').keypress(function(e) {
+      if(!$("#chatRoomTab").hasClass("active")) {
+        if (e.keyCode == 13) {
+          $('#send-button').click();
+        }
+        return;
+      }
+
       if (typingTimeout) {
         clearTimeout(typingTimeout)
       }
@@ -26,13 +33,13 @@ $(document).ready(function()
 
 
     $('#send-button').click(function(e) {
-      socket.emit('stopped typing', username);
-    	var message = {
-    		user: username,
-    		text: $('#message-text').val()
-    	}
+      var message = {
+        user: username,
+        text: $('#message-text').val()
+      }
       if($("#chatRoomTab").hasClass("active"))
       {
+          socket.emit('stopped typing', username);
           addMessage(message);
           socket.emit('chat message', message);
       }
@@ -99,7 +106,7 @@ $(document).ready(function()
       var typingText = "";
 
       Object.keys(typing).forEach(function(username, index) {
-        if (index == numberTyping - 1) {
+        if (index == numberTyping - 1 && index != 0) {
           typingText += ' and '
         } else if (index != 0) {
           typingText += ', '
